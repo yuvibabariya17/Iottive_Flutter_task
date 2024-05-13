@@ -128,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 () {
                   return CustomTextField(
                     controller: controller.passCtr,
-                    hintText: 'Enter your Password',
+                    hintText: 'Enter your Password ',
                     onChanged: (val) {
                       controller.validatePassword(val);
                     },
