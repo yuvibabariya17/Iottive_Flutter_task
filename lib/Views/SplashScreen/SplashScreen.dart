@@ -2,7 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iottive_flutter_task/Models/SignInModel.dart';
+import 'package:iottive_flutter_task/Preference/Userpreference.dart';
 import 'package:iottive_flutter_task/Views/Authentication/LoginScreen.dart';
+import 'package:iottive_flutter_task/Views/Home/HomeScreen.dart';
 import 'package:sizer/sizer.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,16 +19,15 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Timer(const Duration(seconds: 3), () async {
-      //  SignInModel? retrievedObject = await UserPreferences().getSignInInfo();
-
+      // SignInModel? retrievedObject = await UserPreferences().getSignInInfo();
       // if (retrievedObject != null) {
       //   Get.offAll(const HomeScreen());
       // } else {
       //   Get.offAll(const LoginScreen());
       // }
-
       Get.offAll(const LoginScreen());
     });
+    //Get.offAll(const LoginScreen());
     super.initState();
   }
 

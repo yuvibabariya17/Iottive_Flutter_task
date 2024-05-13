@@ -21,12 +21,10 @@ void showMessage(
             from: 30,
             child: CupertinoTheme(
               data: const CupertinoThemeData(
-                brightness: Brightness.light, // Set the brightness to light
-                scaffoldBackgroundColor:
-                    Colors.white, // Set the background color to white
+                brightness: Brightness.light,
+                scaffoldBackgroundColor: Colors.white,
                 textTheme: CupertinoTextThemeData(
-                  textStyle:
-                      TextStyle(color: Colors.black), // Set text color to black
+                  textStyle: TextStyle(color: Colors.black),
                 ),
               ),
               child: CupertinoAlertDialog(

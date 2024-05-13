@@ -3,11 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iottive_flutter_task/Controllers/HomeScreenController.dart';
 import 'package:iottive_flutter_task/Controllers/LoginScreenController.dart';
+import 'package:iottive_flutter_task/Core/Common/appbar.dart';
 import 'package:iottive_flutter_task/Core/Themes/color_constant.dart';
 import 'package:iottive_flutter_task/Core/Themes/font_constant.dart';
 import 'package:iottive_flutter_task/Models/HomeScreenModel.dart';
 import 'package:iottive_flutter_task/Utils/log.dart';
-import 'package:iottive_flutter_task/Views/ProductDetailScreen.dart';
+import 'package:iottive_flutter_task/Views/Home/ProductDetailScreen.dart';
 import 'package:sizer/sizer.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -30,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
       DeviceOrientation.portraitDown,
     ]);
 
-    // controller.getServiceList(context);
     logcat("DATE:::::::", controller.filteredHomeList.length);
     controller.filteredHomeList = controller.serviceObjectList;
     controller.getServiceList(context);
@@ -47,7 +47,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
     return Scaffold(
         body:
-
             // OrientationBuilder(builder: (context, orientation) {
             // if (orientation == Orientation.landscape) {
             //   SystemChrome.setPreferredOrientations([
@@ -60,121 +59,131 @@ class _HomeScreenState extends State<HomeScreen> {
             //     DeviceOrientation.portraitDown,
             //   ]);
             // }
-            Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-          Container(
-              margin: EdgeInsets.only(
-                top: 5.h,
-              ),
-              child: Text(
-                "Home",
-                style: TextStyle(fontSize: 20.sp),
-              )),
-          Container(
-            margin: EdgeInsets.only(
-              top: 1.h,
-              left: 1.w,
-              right: 1.w,
+            Container(
+      margin: EdgeInsets.only(top: 5.h),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            getCommonToolbar("Home", () {
+              // Get.back();
+            }),
+            Container(
+              width: double.infinity,
+              color: black,
+              height: 0.2.h,
             ),
-            padding: EdgeInsets.only(
-              left: 6.w,
-              right: 6.w,
-            ),
-            child: SizedBox(
-              height: 5.5.h,
-              child: TextField(
-                onChanged: ((value) {
-                  controller.filterServiceList(value);
-                }),
-                style: const TextStyle(color: black),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(
-                    top: 1.h,
-                    left: 2.h,
-                    bottom: 1.h,
-                  ),
-                  hintText: "Search Here",
-                  hintStyle: const TextStyle(color: black),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: black)),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      borderSide: const BorderSide(color: black)),
-                  prefixIcon: Padding(
-                    padding: EdgeInsets.only(
-                      left:
-                          SizerUtil.deviceType == DeviceType.mobile ? 2.w : 0.0,
-                    ),
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.search_sharp,
-                          color: black,
-                          size: SizerUtil.deviceType == DeviceType.mobile
-                              ? null
-                              : 3.h,
-                        )),
-                  ),
-                ),
-                controller: controller.searchCtr,
-                cursorColor: black,
-                keyboardType: TextInputType.name,
-              ),
-            ),
-
             // Container(
-            //   height: 5.5.h,
-            //   child: TextField(
-            //     onChanged: ((value) {
-            //       filterServiceList(value);
-            //     }),
-            //     style: const TextStyle(color: black),
-            //     decoration: InputDecoration(
-            //         contentPadding: EdgeInsets.only(
-            //           top: SizerUtil.deviceType == DeviceType.mobile
-            //               ? 1.h
-            //               : 1.2.h,
-            //           left: 2.h,
-            //           bottom: SizerUtil.deviceType == DeviceType.mobile
-            //               ? 1.h
-            //               : 1.2.h,
-            //         ),
-            //         hintText: "Search Here",
-            //         hintStyle: const TextStyle(
-            //           color: black,
-            //         ),
-            //         focusedBorder: OutlineInputBorder(
-            //             borderRadius: BorderRadius.circular(30),
-            //             borderSide: const BorderSide(color: black)),
-            //         enabledBorder: OutlineInputBorder(
-            //             borderRadius: BorderRadius.circular(30),
-            //             borderSide: const BorderSide(color: black)),
-            //         suffixIcon: Padding(
-            //           padding: EdgeInsets.only(
-            //               right: SizerUtil.deviceType == DeviceType.mobile
-            //                   ? 0.0
-            //                   : 2.w),
-            //           child: IconButton(
-            //               onPressed: () {},
-            //               icon: Icon(
-            //                 Icons.search_sharp,
-            //                 color: black,
-            //                 size: SizerUtil.deviceType == DeviceType.mobile
-            //                     ? null
-            //                     : 3.h,
-            //               )),
-            //         )),
-            //     controller: controller.searchCtr,
-            //     cursorColor: black,
-            //     keyboardType: TextInputType.name,
-            //   ),
-            // ),
-          ),
-          Expanded(
-            child: Container(
+            //     margin: EdgeInsets.only(
+            //       top: 5.h,
+            //     ),
+            //     child: Text(
+            //       "Home",
+            //       style: TextStyle(fontSize: 20.sp),
+            //     )),
+            Container(
+              margin: EdgeInsets.only(
+                top: 1.h,
+                left: 1.w,
+                right: 1.w,
+              ),
+              padding: EdgeInsets.only(
+                left: 6.w,
+                right: 6.w,
+              ),
+              child: SizedBox(
+                height: 5.5.h,
+                child: TextField(
+                  onChanged: ((value) {
+                    controller.filterServiceList(value);
+                  }),
+                  style: const TextStyle(color: black),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.only(
+                      top: 1.h,
+                      left: 2.h,
+                      bottom: 1.h,
+                    ),
+                    hintText: "Search Here",
+                    hintStyle: const TextStyle(color: black),
+                    focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(color: black)),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30),
+                        borderSide: const BorderSide(color: black)),
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.only(
+                        left: SizerUtil.deviceType == DeviceType.mobile
+                            ? 2.w
+                            : 0.0,
+                      ),
+                      child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.search_sharp,
+                            color: black,
+                            size: SizerUtil.deviceType == DeviceType.mobile
+                                ? null
+                                : 3.h,
+                          )),
+                    ),
+                  ),
+                  controller: controller.searchCtr,
+                  cursorColor: black,
+                  keyboardType: TextInputType.name,
+                ),
+              ),
+
+              // Container(
+              //   height: 5.5.h,
+              //   child: TextField(
+              //     onChanged: ((value) {
+              //       filterServiceList(value);
+              //     }),
+              //     style: const TextStyle(color: black),
+              //     decoration: InputDecoration(
+              //         contentPadding: EdgeInsets.only(
+              //           top: SizerUtil.deviceType == DeviceType.mobile
+              //               ? 1.h
+              //               : 1.2.h,
+              //           left: 2.h,
+              //           bottom: SizerUtil.deviceType == DeviceType.mobile
+              //               ? 1.h
+              //               : 1.2.h,
+              //         ),
+              //         hintText: "Search Here",
+              //         hintStyle: const TextStyle(
+              //           color: black,
+              //         ),
+              //         focusedBorder: OutlineInputBorder(
+              //             borderRadius: BorderRadius.circular(30),
+              //             borderSide: const BorderSide(color: black)),
+              //         enabledBorder: OutlineInputBorder(
+              //             borderRadius: BorderRadius.circular(30),
+              //             borderSide: const BorderSide(color: black)),
+              //         suffixIcon: Padding(
+              //           padding: EdgeInsets.only(
+              //               right: SizerUtil.deviceType == DeviceType.mobile
+              //                   ? 0.0
+              //                   : 2.w),
+              //           child: IconButton(
+              //               onPressed: () {},
+              //               icon: Icon(
+              //                 Icons.search_sharp,
+              //                 color: black,
+              //                 size: SizerUtil.deviceType == DeviceType.mobile
+              //                     ? null
+              //                     : 3.h,
+              //               )),
+              //         )),
+              //     controller: controller.searchCtr,
+              //     cursorColor: black,
+              //     keyboardType: TextInputType.name,
+              //   ),
+              // ),
+            ),
+            Expanded(
               child: RefreshIndicator(
                 color: black,
                 onRefresh: () {
@@ -185,61 +194,56 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   );
                 },
-                child: CustomScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  slivers: [
-                    // serviceObjectList
-                    SliverToBoxAdapter(
-                      child: Obx(() {
-                        switch (controller.state.value) {
-                          case ScreenState.apiLoading:
-                          case ScreenState.noNetwork:
-                          case ScreenState.noDataFound:
-                          case ScreenState.apiError:
-                            return Container(
-                              margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
-                              height: SizerUtil.height / 1.5,
-                              child: apiOtherStates(controller.state.value),
-                            );
-                          case ScreenState.apiSuccess:
-                            return Container(
-                              margin: EdgeInsets.only(bottom: 3.h, top: 2.h),
-                              child: getServiceList(),
-
-                              // apiSuccess(controller.state.value)
-                            );
-                          default:
-                            Container();
-                        }
-                        return Container();
-                      }),
-                    )
-                  ],
+                child: Scrollbar(
+                  trackVisibility: true,
+                  thickness: 5,
+                  thumbVisibility: true,
+                  child: CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: Obx(() {
+                          switch (controller.state.value) {
+                            case ScreenState.apiLoading:
+                            case ScreenState.noNetwork:
+                            case ScreenState.noDataFound:
+                            case ScreenState.apiError:
+                              return Container(
+                                margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                                height: SizerUtil.height / 1.5,
+                                child: apiOtherStates(controller.state.value),
+                              );
+                            case ScreenState.apiSuccess:
+                              return Container(
+                                  margin:
+                                      EdgeInsets.only(bottom: 3.h, top: 2.h),
+                                  child: apiSuccess(controller.state.value));
+                            default:
+                              Container();
+                          }
+                          return Container();
+                        }),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ]));
+          ]),
+    ));
   }
 
   Widget apiSuccess(ScreenState state) {
     logcat("LENGTH", controller.serviceObjectList.length.toString());
-    // ignore: unrelated_type_quality_checks
-    if (controller.state == ScreenState.apiSuccess &&
+    if (state == ScreenState.apiSuccess &&
         controller.filteredHomeList.isNotEmpty) {
-      return Container(
-          margin: EdgeInsets.only(
-            left: SizerUtil.deviceType == DeviceType.mobile ? 8.w : 6.3.w,
-            right: SizerUtil.deviceType == DeviceType.mobile ? 8.w : 6.3.w,
-          ),
-          // padding: EdgeInsets.only(top: 1.h, bottom: 1.h),
-          child: getServiceList());
+      return Container(child: getServiceList());
     } else {
       return SizedBox(
         height: SizerUtil.height / 1.3,
         child: Center(
           child: Text(
-            "Dont Have Data",
+            "Don't Have Data",
             style: TextStyle(
                 fontFamily: fontMedium, fontSize: 12.sp, color: black),
           ),
@@ -252,8 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return ListView.builder(
       shrinkWrap: true,
       clipBehavior: Clip.antiAlias,
-      padding: EdgeInsets.only(
-          bottom: SizerUtil.deviceType == DeviceType.mobile ? 7.h : 8.h),
+      padding: EdgeInsets.only(bottom: 7.h),
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
         HomeList data = controller.filteredHomeList[index];
@@ -507,49 +510,53 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Flexible(
-                      child: Container(
+                      child: SizedBox(
                         height: 8.h,
                         width: double.infinity,
-                        // color: black,
-                        // decoration: BoxDecoration(
-                        //     borderRadius: BorderRadius.circular(20)),
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: data.product.length,
-                          itemBuilder: (context, imageIndex) {
-                            return Padding(
-                              padding: EdgeInsets.only(right: 2.w, left: 2.w),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                clipBehavior: Clip.antiAlias,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Product tappedProduct =
-                                        data.product[imageIndex];
-                                    String imageUrl = data
-                                        .product[imageIndex].productOtherUrl;
-                                    Get.to(ProductDetailsScreen(
-                                      product: tappedProduct,
-                                      imageUrl: imageUrl,
-                                    ));
-                                    //print("CLICKKKK::");
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: black,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Image.network(
-                                      data.product[imageIndex].productOtherUrl,
-                                      width: 25.w,
-                                      height: 6.h,
-                                      fit: BoxFit.cover,
+                        child: Scrollbar(
+                          trackVisibility: true,
+                          thickness: 5,
+                          thumbVisibility: true,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: data.product.length,
+                            itemBuilder: (context, imageIndex) {
+                              return Padding(
+                                padding: EdgeInsets.only(right: 2.w, left: 2.w),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Product tappedProduct =
+                                          data.product[imageIndex];
+                                      String imageUrl = data
+                                          .product[imageIndex].productOtherUrl;
+                                      Get.to(ProductDetailsScreen(
+                                        product: tappedProduct,
+                                        imageUrl: imageUrl,
+                                      ));
+                                      //print("CLICKKKK::");
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: black,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Image.network(
+                                        data.product[imageIndex]
+                                            .productOtherUrl,
+                                        width: 25.w,
+                                        height: 6.h,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),

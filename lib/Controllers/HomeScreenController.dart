@@ -8,7 +8,6 @@ import 'package:iottive_flutter_task/Controllers/InternetController.dart';
 import 'package:iottive_flutter_task/Controllers/LoginScreenController.dart';
 import 'package:iottive_flutter_task/Dialogs/dialogs.dart';
 import 'package:iottive_flutter_task/Models/HomeScreenModel.dart';
-import 'package:iottive_flutter_task/Models/TestModel.dart';
 import 'package:iottive_flutter_task/Preference/Userpreference.dart';
 import 'package:iottive_flutter_task/Utils/log.dart';
 
@@ -21,7 +20,7 @@ class HomeScreenController extends GetxController {
 
   List<HomeList> filteredHomeList = [];
 
-  List<TransactionItem> staticData = transactionitem;
+  // List<TransactionItem> staticData = transactionitem;
   RxBool isServiceTypeApiList = false.obs;
   RxList<HomeList> serviceObjectList = <HomeList>[].obs;
 

@@ -13,14 +13,14 @@ class LoadingProgressDialog {
             child: Material(
           color: Colors.transparent,
           child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(50)),
                 color: white,
               ),
               child: Container(
                 height: 8.h,
                 width: 8.h,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(100)),
                   color: white,
                 ),
@@ -28,7 +28,6 @@ class LoadingProgressDialog {
                   child: ClipOval(
                     child: Image.asset(
                       'assets/gifs/loadingIndicator.gif',
-                      // color: isDarkMode() ? black : white,
                       height: 6.h,
                       width: 6.h,
                     ),
@@ -52,7 +51,6 @@ class LoadingProgressDialogs {
   show(BuildContext context, message) {
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
-        // Statusbar().trasparentStatusbarProfile(true);
         return Container(
           height: SizerUtil.height,
           width: SizerUtil.width,
@@ -83,7 +81,6 @@ class LoadingProgressDialogs {
                           child: ClipOval(
                             child: Image.asset(
                               'assets/gif/loadingIndicator.gif',
-                              // color: isDarkMode() ? black : white,
                               height: 6.h,
                               width: 6.h,
                             ),

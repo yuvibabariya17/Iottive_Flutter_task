@@ -106,6 +106,18 @@ class _LoginScreenState extends State<LoginScreen> {
               //   ),
               // ),
 
+              TextField(
+                  controller: controller.emailCtr,
+                  decoration: InputDecoration(
+                    labelText: "Username", //babel text
+                    hintText: "Enter your email", //hint text
+                    prefixIcon: Icon(Icons.people), //prefix iocn
+                    hintStyle: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold), //hint text style
+                    labelStyle: TextStyle(
+                        fontSize: 13, color: Colors.redAccent), //label style
+                  )),
               Obx(
                 () {
                   return CustomTextField(

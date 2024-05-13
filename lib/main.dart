@@ -3,12 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:iottive_flutter_task/Controllers/InternetController.dart';
 import 'package:iottive_flutter_task/Core/Common/Common.dart';
+import 'package:iottive_flutter_task/Core/Themes/color_constant.dart';
 import 'package:iottive_flutter_task/Views/SplashScreen/SplashScreen.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  // Otherwise, allow both portrait orientations
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -28,6 +28,12 @@ class MyApp extends StatelessWidget {
         title: 'Iottive ',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          scrollbarTheme: ScrollbarThemeData(
+            thumbColor: MaterialStateProperty.all(
+                primaryColor), // Change this to your desired color
+            trackColor: MaterialStateProperty.all(
+                white), // Optional: Change track color
+          ),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
