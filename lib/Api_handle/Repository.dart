@@ -15,14 +15,6 @@ class Repository {
     return Uri.parse(apiPath);
   }
 
-  // static Uri buildUrl(String endPoint, String ip) {
-  //   // String host = ApiUrl.buildApiUrl;
-  //   //final apiPath = host + endPoint
-  //   final apiPath = ip + endPoint;
-  //   logcat("API", apiPath);
-  //   return Uri.parse(apiPath);
-  // }
-
   static get buildHeader async {
     return {
       HttpHeaders.contentTypeHeader: "application/json",
@@ -115,8 +107,7 @@ class Repository {
     String token = await UserPreferences().getToken();
     logcat("TOKEN", token.toString());
     Map<String, String> headers = {
-      'Content-Type':
-          'application/x-www-form-urlencoded', // Change content type to form
+      'Content-Type': 'application/x-www-form-urlencoded',
       'x-access-token': token,
     };
     logcat("PassignData", {
@@ -124,7 +115,6 @@ class Repository {
       'Authorization': "Bearer $token",
     });
 
-    // Encode the body as a form
     String formBody = body.keys
         .map((key) =>
             Uri.encodeComponent(key) + '=' + Uri.encodeComponent(body[key]))

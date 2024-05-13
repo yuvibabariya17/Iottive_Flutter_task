@@ -103,8 +103,8 @@ class LoginScreenController extends GetxController {
       }
       loadingIndicator.show(context, '');
       var response = await Repository.postForm({
-        "email": emailCtr.text.toString(), //"bhavik.patel@iottive.com",
-        "password": passCtr.text.toString(), //  'Bhavik123#'
+        "email": emailCtr.text.toString(),
+        "password": passCtr.text.toString(),
       }, ApiUrl.login, allowHeader: true);
       loadingIndicator.hide(context);
       var data = jsonDecode(response.body);
@@ -116,7 +116,8 @@ class LoginScreenController extends GetxController {
           UserPreferences().setToken(responseDetail.authToken.toString());
           Get.to(const HomeScreen());
         } else {
-          showDialogForScreen(context, "Invalid Password", callback: () {});
+          showDialogForScreen(context, data['message'].toString(),
+              callback: () {});
         }
       } else {
         state.value = ScreenState.apiError;

@@ -13,28 +13,12 @@ class InternetController extends GetxController {
     refresh();
   }
 
-  //this variable 0 = No Internet, 1 = connected to WIFI ,2 = connected to Mobile Data.
   int connectionType = 0;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription _streamSubscription;
   Function? statusChange;
   void setStatusCallback(Function? fun) {
     statusChange = fun;
-    // if (connectionType == 0 && Get.isDialogOpen == false) {
-    //   Get.dialog(
-    //     barrierDismissible: false,
-    //     AlertDialog(
-    //       title: const Text('Dialog'),
-    //       content: const Text('This is a dialog'),
-    //       actions: [
-    //         TextButton(
-    //           child: const Text("Close"),
-    //           onPressed: () => Get.back(),
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    // }
 
     update();
     update();

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:iottive_flutter_task/Controllers/HomeScreenController.dart';
 import 'package:iottive_flutter_task/Controllers/LoginScreenController.dart';
 import 'package:iottive_flutter_task/Core/Common/appbar.dart';
+import 'package:iottive_flutter_task/Core/Constant/String_Constant.dart';
 import 'package:iottive_flutter_task/Core/Themes/color_constant.dart';
 import 'package:iottive_flutter_task/Core/Themes/font_constant.dart';
 import 'package:iottive_flutter_task/Models/HomeScreenModel.dart';
@@ -46,44 +47,26 @@ class _HomeScreenState extends State<HomeScreen> {
       DeviceOrientation.portraitDown,
     ]);
     return Scaffold(
-        body:
-            // OrientationBuilder(builder: (context, orientation) {
-            // if (orientation == Orientation.landscape) {
-            //   SystemChrome.setPreferredOrientations([
-            //     DeviceOrientation.landscapeLeft,
-            //     DeviceOrientation.landscapeRight,
-            //   ]);
-            // } else {
-            //   SystemChrome.setPreferredOrientations([
-            //     DeviceOrientation.portraitUp,
-            //     DeviceOrientation.portraitDown,
-            //   ]);
-            // }
-            Container(
+        body: Container(
       margin: EdgeInsets.only(top: 5.h),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            getCommonToolbar("Home", () {
-              // Get.back();
+            getToolbar(Strings.homeTitle, () {}, Strings.logOutBtn, () {
+              PopupDialogs(context);
             }),
+            SizedBox(
+              height: 1.h,
+            ),
             Container(
               width: double.infinity,
               color: black,
               height: 0.2.h,
             ),
-            // Container(
-            //     margin: EdgeInsets.only(
-            //       top: 5.h,
-            //     ),
-            //     child: Text(
-            //       "Home",
-            //       style: TextStyle(fontSize: 20.sp),
-            //     )),
             Container(
               margin: EdgeInsets.only(
-                top: 1.h,
+                top: 2.h,
                 left: 1.w,
                 right: 1.w,
               ),
@@ -104,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       left: 2.h,
                       bottom: 1.h,
                     ),
-                    hintText: "Search Here",
+                    hintText: Strings.search,
                     hintStyle: const TextStyle(color: black),
                     focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(30),
@@ -134,101 +117,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   keyboardType: TextInputType.name,
                 ),
               ),
-
-              // Container(
-              //   height: 5.5.h,
-              //   child: TextField(
-              //     onChanged: ((value) {
-              //       filterServiceList(value);
-              //     }),
-              //     style: const TextStyle(color: black),
-              //     decoration: InputDecoration(
-              //         contentPadding: EdgeInsets.only(
-              //           top: SizerUtil.deviceType == DeviceType.mobile
-              //               ? 1.h
-              //               : 1.2.h,
-              //           left: 2.h,
-              //           bottom: SizerUtil.deviceType == DeviceType.mobile
-              //               ? 1.h
-              //               : 1.2.h,
-              //         ),
-              //         hintText: "Search Here",
-              //         hintStyle: const TextStyle(
-              //           color: black,
-              //         ),
-              //         focusedBorder: OutlineInputBorder(
-              //             borderRadius: BorderRadius.circular(30),
-              //             borderSide: const BorderSide(color: black)),
-              //         enabledBorder: OutlineInputBorder(
-              //             borderRadius: BorderRadius.circular(30),
-              //             borderSide: const BorderSide(color: black)),
-              //         suffixIcon: Padding(
-              //           padding: EdgeInsets.only(
-              //               right: SizerUtil.deviceType == DeviceType.mobile
-              //                   ? 0.0
-              //                   : 2.w),
-              //           child: IconButton(
-              //               onPressed: () {},
-              //               icon: Icon(
-              //                 Icons.search_sharp,
-              //                 color: black,
-              //                 size: SizerUtil.deviceType == DeviceType.mobile
-              //                     ? null
-              //                     : 3.h,
-              //               )),
-              //         )),
-              //     controller: controller.searchCtr,
-              //     cursorColor: black,
-              //     keyboardType: TextInputType.name,
-              //   ),
-              // ),
             ),
-            Expanded(
-              child: RefreshIndicator(
-                color: black,
-                onRefresh: () {
-                  return Future.delayed(
-                    const Duration(seconds: 1),
-                    () {
-                      // controller.getServiceList(context);
-                    },
+            Expanded(child: Obx(() {
+              switch (controller.state.value) {
+                case ScreenState.apiLoading:
+                case ScreenState.noNetwork:
+                case ScreenState.noDataFound:
+                case ScreenState.apiError:
+                  return Container(
+                    margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
+                    height: SizerUtil.height / 1.5,
+                    child: apiOtherStates(controller.state.value),
                   );
-                },
-                child: Scrollbar(
-                  trackVisibility: true,
-                  thickness: 5,
-                  thumbVisibility: true,
-                  child: CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: Obx(() {
-                          switch (controller.state.value) {
-                            case ScreenState.apiLoading:
-                            case ScreenState.noNetwork:
-                            case ScreenState.noDataFound:
-                            case ScreenState.apiError:
-                              return Container(
-                                margin: EdgeInsets.only(top: 5.h, bottom: 5.h),
-                                height: SizerUtil.height / 1.5,
-                                child: apiOtherStates(controller.state.value),
-                              );
-                            case ScreenState.apiSuccess:
-                              return Container(
-                                  margin:
-                                      EdgeInsets.only(bottom: 3.h, top: 2.h),
-                                  child: apiSuccess(controller.state.value));
-                            default:
-                              Container();
-                          }
-                          return Container();
-                        }),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                case ScreenState.apiSuccess:
+                  return Container(
+                      margin: EdgeInsets.only(bottom: 3.h, top: 2.h),
+                      child: apiSuccess(controller.state.value));
+                default:
+                  Container();
+              }
+              return Container();
+            })),
           ]),
     ));
   }
@@ -237,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
     logcat("LENGTH", controller.serviceObjectList.length.toString());
     if (state == ScreenState.apiSuccess &&
         controller.filteredHomeList.isNotEmpty) {
-      return Container(child: getServiceList());
+      return getServiceList();
     } else {
       return SizedBox(
         height: SizerUtil.height / 1.3,
@@ -253,342 +162,272 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   getServiceList() {
-    return ListView.builder(
-      shrinkWrap: true,
-      clipBehavior: Clip.antiAlias,
-      padding: EdgeInsets.only(bottom: 7.h),
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) {
-        HomeList data = controller.filteredHomeList[index];
+    return Scrollbar(
+      controller: ScrollController(),
+      trackVisibility: true,
+      thickness: 10,
+      interactive: true,
+      radius: Radius.circular(16),
+      thumbVisibility: true,
+      child: ListView.builder(
+        shrinkWrap: true,
+        clipBehavior: Clip.antiAlias,
+        padding: EdgeInsets.only(bottom: 7.h),
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          HomeList data = controller.filteredHomeList[index];
 
-        return Container(
-            margin: EdgeInsets.only(
-              left: 5.w,
-              right: 5.w,
-              top: 1.5.h,
-              bottom: 0.5.h,
-            ),
-            padding: EdgeInsets.only(
-              left: 3.w,
-              right: 3.w,
-              top: 1.1.h,
-              bottom: 0.5.h,
-            ),
-            decoration: BoxDecoration(
-              color: white,
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              boxShadow: [
-                BoxShadow(
-                  color: black.withOpacity(0.2),
-                  spreadRadius: 0.1,
-                  blurRadius: 10,
-                  offset: const Offset(0.5, 0.5),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Order Id : ",
-                      style: TextStyle(
-                        fontSize: 8.sp,
-                        fontWeight: FontWeight.w800,
-                        color: black,
-                      ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        data.orderId.toString(),
-                        overflow: TextOverflow.visible,
-                        maxLines: 3,
-                        textAlign: TextAlign.start,
+          return Container(
+              margin: EdgeInsets.only(
+                left: 5.w,
+                right: 5.w,
+                top: 1.5.h,
+                bottom: 0.5.h,
+              ),
+              padding: EdgeInsets.only(
+                left: 3.w,
+                right: 3.w,
+                top: 1.1.h,
+                bottom: 0.5.h,
+              ),
+              decoration: BoxDecoration(
+                color: white,
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
+                boxShadow: [
+                  BoxShadow(
+                    color: black.withOpacity(0.2),
+                    spreadRadius: 0.1,
+                    blurRadius: 10,
+                    offset: const Offset(0.5, 0.5),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Order Id : ",
                         style: TextStyle(
-                            fontSize: 7.sp,
-                            color: black,
-                            fontFamily: fontRegular),
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w800,
+                          color: black,
+                        ),
                       ),
-                    ),
-                    // Expanded(
-                    //   child: Text(
-                    //     "Order Id : ${data.orderId.toString()}",
-                    //     maxLines: 1,
-                    //     overflow: TextOverflow.ellipsis,
-                    //     style: TextStyle(
-                    //       color: black,
-                    //       fontFamily: opensansMedium,
-                    //       fontSize: 7.sp,
-                    //       fontWeight: FontWeight.w400,
-                    //     ),
-                    //     // textAlign: TextAlign.center,
-                    //   ),
-                    // ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Date : ",
-                      style: TextStyle(
-                        fontSize: 8.sp,
-                        fontWeight: FontWeight.w800,
-                        color: black,
+                      Expanded(
+                        child: Text(
+                          data.orderId.toString(),
+                          overflow: TextOverflow.visible,
+                          maxLines: 3,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 7.sp,
+                              color: black,
+                              fontFamily: fontRegular),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        data.date.toString(),
-                        overflow: TextOverflow.visible,
-                        maxLines: 3,
-                        textAlign: TextAlign.start,
+                      // Expanded(
+                      //   child: Text(
+                      //     "Order Id : ${data.orderId.toString()}",
+                      //     maxLines: 1,
+                      //     overflow: TextOverflow.ellipsis,
+                      //     style: TextStyle(
+                      //       color: black,
+                      //       fontFamily: opensansMedium,
+                      //       fontSize: 7.sp,
+                      //       fontWeight: FontWeight.w400,
+                      //     ),
+
+                      SizedBox(width: 1.w),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Amount : ",
                         style: TextStyle(
-                            fontSize: 7.sp,
-                            color: black,
-                            fontFamily: fontRegular),
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w800,
+                          color: black,
+                        ),
                       ),
-                    ),
-                    // Text(
-                    //   "Date : ${data.date.toString()}",
-                    //   style: TextStyle(
-                    //     color: black,
-                    //     fontFamily: opensansMedium,
-                    //     fontSize: 7.sp,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                    SizedBox(width: 1.w),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Amount : ",
-                      style: TextStyle(
-                        fontSize: 8.sp,
-                        fontWeight: FontWeight.w800,
-                        color: black,
+                      Expanded(
+                        child: Text(
+                          data.paidAmount.toString(),
+                          overflow: TextOverflow.visible,
+                          maxLines: 3,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 7.sp,
+                              color: black,
+                              fontFamily: fontRegular),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        data.paidAmount.toString(),
-                        overflow: TextOverflow.visible,
-                        maxLines: 3,
-                        textAlign: TextAlign.start,
+                      SizedBox(width: 1.w),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Status : ",
                         style: TextStyle(
-                            fontSize: 7.sp,
-                            color: black,
-                            fontFamily: fontRegular),
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w800,
+                          color: black,
+                        ),
                       ),
-                    ),
-                    // Text(
-                    //   "Amount : ${data.paidAmount.toString()}",
-                    //   style: TextStyle(
-                    //     color: black,
-                    //     fontFamily: opensansMedium,
-                    //     fontSize: 7.sp,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                    SizedBox(width: 1.w),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Status : ",
-                      style: TextStyle(
-                        fontSize: 8.sp,
-                        fontWeight: FontWeight.w800,
-                        color: black,
+                      Expanded(
+                        child: Text(
+                          data.paymentStatus.toString(),
+                          overflow: TextOverflow.visible,
+                          maxLines: 3,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 7.sp,
+                              color: black,
+                              fontFamily: fontRegular),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        data.paymentStatus.toString(),
-                        overflow: TextOverflow.visible,
-                        maxLines: 3,
-                        textAlign: TextAlign.start,
+                      SizedBox(width: 1.w),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        "No.of Product : ",
                         style: TextStyle(
-                            fontSize: 7.sp,
-                            color: black,
-                            fontFamily: fontRegular),
+                          fontSize: 8.sp,
+                          fontWeight: FontWeight.w800,
+                          color: black,
+                        ),
                       ),
-                    ),
-                    // Text(
-                    //   "Status : ${data.paymentStatus.toString()}",
-                    //   style: TextStyle(
-                    //     color: black,
-                    //     fontFamily: opensansMedium,
-                    //     fontSize: 7.sp,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                    SizedBox(width: 1.w),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      "No.of Product : ",
-                      style: TextStyle(
-                        fontSize: 8.sp,
-                        fontWeight: FontWeight.w800,
-                        color: black,
+                      Expanded(
+                        child: Text(
+                          data.product.length.toString(),
+                          overflow: TextOverflow.visible,
+                          maxLines: 3,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                              fontSize: 7.sp,
+                              color: black,
+                              fontFamily: fontRegular),
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Text(
-                        data.product.length.toString(),
-                        overflow: TextOverflow.visible,
-                        maxLines: 3,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 7.sp,
-                            color: black,
-                            fontFamily: fontRegular),
-                      ),
-                    ),
-                    // Text(
-                    //   "No.of Product : ${data.product.length.toString()}",
-                    //   style: TextStyle(
-                    //     color: black,
-                    //     fontFamily: opensansMedium,
-                    //     fontSize: 7.sp,
-                    //     fontWeight: FontWeight.w400,
-                    //   ),
-                    // ),
-                    SizedBox(width: 1.w),
-                  ],
-                ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   crossAxisAlignment: CrossAxisAlignment.center,
-                //   children: [
-                //     Text(
-                //       "Product Name : ",
-                //       style: TextStyle(
-                //         fontSize: 8.sp,
-                //         fontWeight: FontWeight.w800,
-                //         color: black,
-                //       ),
-                //     ),
-                //     Expanded(
-                //       child: Text(
-                //         data.product[index].productName,
-                //         style: TextStyle(
-                //           fontSize: 7.sp,
-                //           color: black,
-                //           fontFamily: fontRegular,
-                //         ),
-                //       ),
-                //     ),
-                //
-                //     SizedBox(width: 1.w),
-                //   ],
-                // ),
-                const Divider(
-                  // indent: double.infinity,
-                  // endIndent: double.infinity,
-                  color: black,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Flexible(
-                      child: SizedBox(
-                        height: 8.h,
-                        width: double.infinity,
-                        child: Scrollbar(
-                          trackVisibility: true,
-                          thickness: 5,
-                          thumbVisibility: true,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data.product.length,
-                            itemBuilder: (context, imageIndex) {
-                              return Padding(
-                                padding: EdgeInsets.only(right: 2.w, left: 2.w),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  clipBehavior: Clip.antiAlias,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Product tappedProduct =
-                                          data.product[imageIndex];
-                                      String imageUrl = data
-                                          .product[imageIndex].productOtherUrl;
-                                      Get.to(ProductDetailsScreen(
-                                        product: tappedProduct,
-                                        imageUrl: imageUrl,
-                                      ));
-                                      //print("CLICKKKK::");
-                                    },
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                          color: black,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Image.network(
-                                        data.product[imageIndex]
-                                            .productOtherUrl,
-                                        width: 25.w,
-                                        height: 6.h,
-                                        fit: BoxFit.cover,
+                      SizedBox(width: 1.w),
+                    ],
+                  ),
+                  const Divider(
+                    color: black,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: SizedBox(
+                          height: 8.5.h,
+                          width: double.infinity,
+                          child: Scrollbar(
+                            controller: ScrollController(),
+                            trackVisibility: true,
+                            thickness: 7,
+                            radius: const Radius.circular(10),
+                            thumbVisibility: true,
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data.product.length,
+                              itemBuilder: (context, imageIndex) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      right: 2.5.w, bottom: 3.5.w),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(10),
+                                    clipBehavior: Clip.antiAlias,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Product tappedProduct =
+                                            data.product[imageIndex];
+                                        String imageUrl = data
+                                            .product[imageIndex]
+                                            .productOtherUrl;
+                                        Get.to(ProductDetailsScreen(
+                                          product: tappedProduct,
+                                          imageUrl: imageUrl,
+                                        ));
+                                        //print("CLICKKKK::");
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: black,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.grey
+                                                      .withOpacity(0.5),
+                                                  blurRadius: 10.0,
+                                                  offset: const Offset(0, 1),
+                                                  spreadRadius: 3.0)
+                                            ],
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Image.network(
+                                          data.product[imageIndex]
+                                              .productOtherUrl,
+                                          width: 22.w,
+                                          height: 4.h,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
+                                );
+                              },
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: 2.h,
-                )
-              ],
-            ));
-      },
-      itemCount: controller.filteredHomeList.length,
+                    ],
+                  ),
+                  Container(
+                    height: 2.h,
+                  )
+                ],
+              ));
+        },
+        itemCount: controller.filteredHomeList.length,
+      ),
     );
   }
 
   Widget apiOtherStates(state) {
     if (state == ScreenState.apiLoading) {
-      return Container(
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            color: white,
-            borderRadius: BorderRadius.circular(50),
+      return Center(
+        child: ClipOval(
+          child: Container(
+            height: 70,
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+            ),
+            child: Image.asset(
+              "assets/gifs/apiloader.gif",
+              width: 100,
+              height: 100,
+              fit: BoxFit.cover,
+            ),
           ),
-          child: const Center(child: Text("loading..."))
-          //     Image.asset(
-          //   "assets/gifs/apiloader.gif",
-          //   width: 50,
-          //   height: 50,
-          //   fit: BoxFit.cover,
-          // ),
-          );
+        ),
+      );
     }
 
     Widget? button;

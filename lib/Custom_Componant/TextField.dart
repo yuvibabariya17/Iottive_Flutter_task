@@ -10,7 +10,7 @@ class CustomTextField extends StatefulWidget {
   final String? errorText;
   final IconData? suffixIcon;
   final bool isPassword;
-  final String? Function(String?)? validator; // New property for validation
+  final String? Function(String?)? validator;
 
   const CustomTextField({
     super.key,
@@ -21,7 +21,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.isPassword = false,
     this.onChanged,
-    this.validator, // Initialize the validator
+    this.validator,
   });
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -35,7 +35,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
       children: [
         Container(
           margin: EdgeInsets.only(left: 1.w, right: 1.w),
-          //padding: EdgeInsets.symmetric(horizontal: 16.0),
           decoration: const BoxDecoration(
             border: Border(bottom: BorderSide(color: Colors.grey)),
           ),
@@ -52,13 +51,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
               SizedBox(
                 width: 3.w,
               ),
-              // if (widget.prefixIcon != null)
-              //   Container(
-              //     width: 3.0,
-              //     height: 24.0,
-              //     color: Colors.grey,
-              //     margin: const EdgeInsets.symmetric(vertical: 8.0),
-              //   ),
               SizedBox(
                 width: 3.w,
               ),
@@ -94,22 +86,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   onChanged: widget.onChanged,
                 ),
               ),
-              // if (widget.suffixIcon != null)
-              //   Container(
-              //     padding: const EdgeInsets.all(8.0),
-              //     child: Icon(widget.suffixIcon),
-              //   ),
             ],
           ),
         ),
-        // if (widget.validator != null)
-        //   Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        //     child: Text(
-        //       widget.validator!(widget.controller.text) ?? '',
-        //       style: const TextStyle(color: Colors.red),
-        //     ),
-        //   ),
       ],
     );
   }

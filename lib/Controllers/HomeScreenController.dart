@@ -20,7 +20,6 @@ class HomeScreenController extends GetxController {
 
   List<HomeList> filteredHomeList = [];
 
-  // List<TransactionItem> staticData = transactionitem;
   RxBool isServiceTypeApiList = false.obs;
   RxList<HomeList> serviceObjectList = <HomeList>[].obs;
 
@@ -33,14 +32,13 @@ class HomeScreenController extends GetxController {
   }
 
   void filterServiceList(String query) {
-    print("SEarch ${query} ");
     if (query.isEmpty) {
       filteredHomeList = serviceObjectList;
     } else {
       List<HomeList> newArray = [];
-      serviceObjectList.forEach((element) {
+      for (var element in serviceObjectList) {
         bool isFound = false;
-        element.product.forEach((pd) {
+        for (var pd in element.product) {
           if (pd.productName
               .toString()
               .trim()
@@ -48,11 +46,11 @@ class HomeScreenController extends GetxController {
               .contains(query.toLowerCase())) {
             isFound = true;
           }
-        });
+        }
         if (isFound) {
           newArray.add(element);
         }
-      });
+      }
 
       filteredHomeList = newArray;
     }
@@ -61,14 +59,7 @@ class HomeScreenController extends GetxController {
 
   void getServiceList(context) async {
     state.value = ScreenState.apiLoading;
-    // isServiceTypeApiList.value = true;
     try {
-      if (networkManager.connectionType == 0) {
-        showDialogForScreen(context, "No Internet Connection", callback: () {
-          Get.back();
-        });
-        return;
-      }
       String token = await UserPreferences().getToken();
       var data = await UserPreferences().getSignInInfo();
 

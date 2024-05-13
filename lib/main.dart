@@ -8,16 +8,19 @@ import 'package:iottive_flutter_task/Views/SplashScreen/SplashScreen.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
+  Get.lazyPut(() => InternetController());
+
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+  final intenetController = Get.put(InternetController(), permanent: true);
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +32,8 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scrollbarTheme: ScrollbarThemeData(
-            thumbColor: MaterialStateProperty.all(
-                primaryColor), // Change this to your desired color
-            trackColor: MaterialStateProperty.all(
-                white), // Optional: Change track color
+            thumbColor: MaterialStateProperty.all(primaryColor),
+            trackColor: MaterialStateProperty.all(white),
           ),
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
