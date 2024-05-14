@@ -10,14 +10,11 @@ getFormButton(Function fun, str, {required bool validate}) {
         fun();
       },
       child: Container(
-        height: SizerUtil.deviceType == DeviceType.mobile ? 6.h : 5.9.h,
+        height: 6.h,
         alignment: Alignment.center,
-        width: SizerUtil.deviceType == DeviceType.mobile
-            ? SizerUtil.width / 1
-            : SizerUtil.width / 2,
+        width: SizerUtil.width / 1,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(
-              SizerUtil.deviceType == DeviceType.mobile ? 5.h : 1.4.h),
+          borderRadius: BorderRadius.circular(5.h),
           color: validate ? primaryColor : Colors.grey,
           boxShadow: [
             BoxShadow(
@@ -31,11 +28,7 @@ getFormButton(Function fun, str, {required bool validate}) {
         ),
         child: Text(
           str,
-          style: TextStyle(
-              color: white,
-              fontFamily: fontBold,
-              fontSize:
-                  SizerUtil.deviceType == DeviceType.mobile ? 14.sp : 9.sp),
+          style: TextStyle(color: white, fontFamily: fontBold, fontSize: 14.sp),
         ),
       ),
     ),

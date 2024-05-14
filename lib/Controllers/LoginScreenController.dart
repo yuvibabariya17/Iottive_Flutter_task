@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:iottive_flutter_task/Api_handle/Repository.dart';
 import 'package:iottive_flutter_task/Config/Api_call_constant.dart';
 import 'package:iottive_flutter_task/Controllers/InternetController.dart';
+import 'package:iottive_flutter_task/Core/Constant/String_Constant.dart';
 import 'package:iottive_flutter_task/Dialogs/LoadingIndicator.dart';
 import 'package:iottive_flutter_task/Dialogs/dialogs.dart';
 import 'package:iottive_flutter_task/Models/SignInModel.dart';
@@ -141,8 +142,8 @@ class LoginScreenController extends GetxController {
           return true;
         },
         message: message,
-        title: "Sign In",
+        title: Strings.login,
         negativeButton: '',
-        positiveButton: "Continue");
+        positiveButton: Strings.continueBtn);
   }
 }

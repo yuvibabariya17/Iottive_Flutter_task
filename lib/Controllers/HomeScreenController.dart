@@ -6,6 +6,7 @@ import 'package:iottive_flutter_task/Api_handle/Repository.dart';
 import 'package:iottive_flutter_task/Config/Api_call_constant.dart';
 import 'package:iottive_flutter_task/Controllers/InternetController.dart';
 import 'package:iottive_flutter_task/Controllers/LoginScreenController.dart';
+import 'package:iottive_flutter_task/Core/Constant/String_Constant.dart';
 import 'package:iottive_flutter_task/Dialogs/dialogs.dart';
 import 'package:iottive_flutter_task/Models/HomeScreenModel.dart';
 import 'package:iottive_flutter_task/Preference/Userpreference.dart';
@@ -20,8 +21,8 @@ class HomeScreenController extends GetxController {
 
   List<HomeList> filteredHomeList = [];
 
-  RxBool isServiceTypeApiList = false.obs;
-  RxList<HomeList> serviceObjectList = <HomeList>[].obs;
+  RxBool isHomeTypeApiList = false.obs;
+  RxList<HomeList> homeObjectList = <HomeList>[].obs;
 
   @override
   void onInit() {
@@ -31,12 +32,12 @@ class HomeScreenController extends GetxController {
     super.onInit();
   }
 
-  void filterServiceList(String query) {
+  void filterHomeList(String query) {
     if (query.isEmpty) {
-      filteredHomeList = serviceObjectList;
+      filteredHomeList = homeObjectList;
     } else {
       List<HomeList> newArray = [];
-      for (var element in serviceObjectList) {
+      for (var element in homeObjectList) {
         bool isFound = false;
         for (var pd in element.product) {
           if (pd.productName
@@ -57,7 +58,7 @@ class HomeScreenController extends GetxController {
     update();
   }
 
-  void getServiceList(context) async {
+  void getHomeList(context) async {
     state.value = ScreenState.apiLoading;
     try {
       String token = await UserPreferences().getToken();
@@ -66,22 +67,22 @@ class HomeScreenController extends GetxController {
       var response = await Repository.postForm(
           {"authToken": token, "userId": data?.userId.toString()}, ApiUrl.home,
           allowHeader: true);
-      isServiceTypeApiList.value = false;
+      isHomeTypeApiList.value = false;
       var responseData = jsonDecode(response.body);
       update();
 
-      logcat("SERVICERESPONSE", jsonEncode(responseData));
+      logcat("HOMERESPONSE", jsonEncode(responseData));
       if (response.statusCode == 200) {
         var data = HomeScreenModel.fromJson(responseData);
         if (data.success == true) {
           state.value = ScreenState.apiSuccess;
-          serviceObjectList.clear();
-          serviceObjectList.addAll(data.data);
-          filteredHomeList = serviceObjectList;
+          homeObjectList.clear();
+          homeObjectList.addAll(data.data);
+          filteredHomeList = homeObjectList;
 
           update();
 
-          logcat("SERVICE RESPONSE", jsonEncode(serviceObjectList));
+          logcat("HOME RESPONSE", jsonEncode(homeObjectList));
         } else {
           showDialogForScreen(context, responseData['message'],
               callback: () {});
@@ -91,7 +92,7 @@ class HomeScreenController extends GetxController {
       }
     } catch (e) {
       logcat('Exception', e);
-      isServiceTypeApiList.value = false;
+      isHomeTypeApiList.value = false;
     }
     update();
   }
@@ -106,9 +107,9 @@ class HomeScreenController extends GetxController {
           return true;
         },
         message: message,
-        title: "Home Screen",
+        title: Strings.homeTitle,
         negativeButton: '',
-        positiveButton: "Continue");
+        positiveButton: Strings.continueBtn);
   }
 
   void hideKeyboard(context) {

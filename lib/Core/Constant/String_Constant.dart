@@ -11,4 +11,5 @@ class Strings {
   static const productDetailTitle = "Product Detail";
   static const logOutBtn = "LogOut";
   static const search = "Search Here";
+  static const continueBtn = "Continue";
 }

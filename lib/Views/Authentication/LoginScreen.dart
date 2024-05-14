@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:iottive_flutter_task/Controllers/LoginScreenController.dart';
 import 'package:iottive_flutter_task/Core/Constant/String_Constant.dart';
@@ -25,65 +26,76 @@ class _LoginScreenState extends State<LoginScreen> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Container(
-        margin: EdgeInsets.only(top: 12.h, right: 7.w, left: 7.w),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Row(children: [
-              Text(
-                Strings.login,
-                style: TextStyle(
-                    fontSize: 22.sp,
-                    color: primaryColor,
-                    fontWeight: FontWeight.w700),
-              ),
-            ]),
-            SizedBox(
-              height: 0.5.h,
-            ),
-            Row(
-              children: [
-                Text(
-                  Strings.loginDetail,
-                  style:
-                      TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            getCustomeFormFields(controller.emailCtr, Strings.emailHint, 1),
-            SizedBox(
-              height: 1.h,
-            ),
-            getCustomeFormFields(controller.passCtr, Strings.passHint, 2),
-            SizedBox(
-              height: 7.h,
-            ),
-            FadeInUp(
-                from: 50,
-                child: Obx(() {
-                  return getFormButton(() {
-                    if (controller.isFormInvalidate.value == true) {
-                      // Get.to(const HomeScreen());
-                      controller.signInAPI(context);
-                      logcat("LOGINSUCCESSFUL:::::", "");
-                    }
-                  }, Strings.login,
-                      validate: controller.isFormInvalidate.value);
-                })),
-            SizedBox(
-              height: 2.h,
-            ),
-          ],
+    return Stack(children: [
+      SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: SvgPicture.asset(
+          "assets/svgs/Frame.svg",
+          fit: BoxFit.cover,
         ),
       ),
-    );
+      Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: transparent,
+        body: Container(
+          color: transparent,
+          margin: EdgeInsets.only(top: 12.h, right: 7.w, left: 7.w),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(children: [
+                Text(
+                  Strings.login,
+                  style: TextStyle(
+                      fontSize: 22.sp,
+                      color: primaryColor,
+                      fontWeight: FontWeight.w700),
+                ),
+              ]),
+              SizedBox(
+                height: 0.5.h,
+              ),
+              Row(
+                children: [
+                  Text(
+                    Strings.loginDetail,
+                    style:
+                        TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              getCustomeFormFields(controller.emailCtr, Strings.emailHint, 1),
+              SizedBox(
+                height: 1.h,
+              ),
+              getCustomeFormFields(controller.passCtr, Strings.passHint, 2),
+              SizedBox(
+                height: 7.h,
+              ),
+              FadeInUp(
+                  from: 50,
+                  child: Obx(() {
+                    return getFormButton(() {
+                      if (controller.isFormInvalidate.value == true) {
+                        controller.signInAPI(context);
+                        logcat("LOGINSUCCESSFUL:::::", "");
+                      }
+                    }, Strings.login,
+                        validate: controller.isFormInvalidate.value);
+                  })),
+              SizedBox(
+                height: 2.h,
+              ),
+            ],
+          ),
+        ),
+      ),
+    ]);
   }
 
   getCustomeFormFields(

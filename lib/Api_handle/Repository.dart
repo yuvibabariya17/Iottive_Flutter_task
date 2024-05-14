@@ -30,7 +30,6 @@ class Repository {
   static Future<http.Response> delete(
       Map<String, dynamic> body, String endPoint,
       {bool? allowHeader, int? itemId}) async {
-    //  logcat("APIURL:::", buildUrl(endPoint, ip));
     String token = await UserPreferences().getToken();
     Map<String, String> headers = {
       HttpHeaders.contentTypeHeader: "application/json",

@@ -57,7 +57,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             Container(
               width: double.infinity,
               color: black,
-              height: 0.2.h,
+              height: 0.1.h,
             ),
             SizedBox(
               height: 2.h,
@@ -82,7 +82,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             height: 30.h,
             width: 100.w,
-            //  color: black,
+            decoration: BoxDecoration(
+                color: black,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      blurRadius: 10.0,
+                      offset: const Offset(0, 1),
+                      spreadRadius: 3.0)
+                ],
+                borderRadius: BorderRadius.circular(10)),
             child: Image.network(
               widget.imageUrl,
               fit: BoxFit.cover,
@@ -109,6 +118,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             margin: EdgeInsets.only(left: 5.w, right: 5.w),
             height: 30.h,
             width: 100.w,
+            decoration: BoxDecoration(
+                color: black,
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      blurRadius: 10.0,
+                      offset: const Offset(0, 1),
+                      spreadRadius: 3.0)
+                ],
+                borderRadius: BorderRadius.circular(10)),
             child: Image.network(
               widget.imageUrl,
               fit: BoxFit.cover,
@@ -116,7 +135,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           const SizedBox(height: 16.0),
           Padding(
-            padding: EdgeInsets.only(left: 1.w, right: 1.w),
+            padding: EdgeInsets.only(
+              left: 1.w,
+              right: 1.w,
+            ),
             child: _buildProductDetails(),
           ),
         ],
@@ -147,7 +169,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             style: TextStyle(
                 fontSize: 8.sp, color: black, fontFamily: fontRegular),
           ),
-          SizedBox(height: 1.h),
+          getdivider(),
           Text(
             "Product ID :",
             style: TextStyle(
@@ -164,7 +186,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             style: TextStyle(
                 fontSize: 8.sp, color: black, fontFamily: fontRegular),
           ),
-          SizedBox(height: 1.h),
+          getdivider(),
           Text(
             "Price :",
             style: TextStyle(
@@ -181,7 +203,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             style: TextStyle(
                 fontSize: 8.sp, color: black, fontFamily: fontRegular),
           ),
-          SizedBox(height: 1.h),
+          getdivider(),
           Text(
             "Count :",
             style: TextStyle(

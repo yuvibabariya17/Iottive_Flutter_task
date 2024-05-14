@@ -30,12 +30,7 @@ void showMessage(
               child: CupertinoAlertDialog(
                 title: Text(
                   title!,
-                  style: TextStyle(
-                    fontFamily: fontBold,
-                    fontSize: SizerUtil.deviceType == DeviceType.mobile
-                        ? 15.sp
-                        : 8.sp,
-                  ),
+                  style: TextStyle(fontFamily: fontBold, fontSize: 15.sp),
                 ),
                 content: Text(
                   message!,
@@ -49,9 +44,7 @@ void showMessage(
                         child: Text(
                           negativeButton,
                           style: TextStyle(
-                            fontSize: SizerUtil.deviceType == DeviceType.mobile
-                                ? 12.sp
-                                : 6.sp,
+                            fontSize: 12.sp,
                             fontFamily: fontMedium,
                             color: black,
                           ),
@@ -64,9 +57,7 @@ void showMessage(
                         child: Text(
                           positiveButton,
                           style: TextStyle(
-                            fontSize: SizerUtil.deviceType == DeviceType.mobile
-                                ? 12.sp
-                                : 6.sp,
+                            fontSize: 12.sp,
                             fontFamily: fontMedium,
                             color: black,
                           ),

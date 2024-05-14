@@ -44,7 +44,6 @@ getToolbar(title, Function? callback, String str, Function? ontap) {
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Expanded(
-        // flex: 2,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -70,9 +69,11 @@ getToolbar(title, Function? callback, String str, Function? ontap) {
           ontap!();
         },
         child: Container(
-            color: black,
             height: 4.h,
             width: 20.w,
+            decoration: const BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
             margin: EdgeInsets.only(right: 5.w),
             child: Center(
                 child: Text(
@@ -88,8 +89,7 @@ getToolbar(title, Function? callback, String str, Function? ontap) {
 
 Widget commonBackPress(callback) {
   return Container(
-    margin: EdgeInsets.only(
-        left: SizerUtil.deviceType == DeviceType.mobile ? 5.5.w : 4.w),
+    margin: EdgeInsets.only(left: 5.5.w),
     child: GestureDetector(
       onTap: () {
         callback();
@@ -98,9 +98,19 @@ Widget commonBackPress(callback) {
           padding: const EdgeInsets.all(2),
           child: Icon(
             Icons.arrow_back_ios_new,
-            size: 2.h,
+            size: 2.2.h,
           )),
     ),
+  );
+}
+
+getdivider() {
+  return Divider(
+    height: 3.5.h,
+    // indent: 1.h,
+    endIndent: 2.h,
+    thickness: 1,
+    color: black.withOpacity(0.5),
   );
 }
 
@@ -116,7 +126,7 @@ Future<Object?> PopupDialogs(BuildContext context) {
               opacity: a1.value,
               child: CupertinoAlertDialog(
                 title: const Text(
-                  "Sign Out",
+                  "Log Out",
                   style: TextStyle(
                     fontSize: 18,
                     color: black,
@@ -125,7 +135,7 @@ Future<Object?> PopupDialogs(BuildContext context) {
                   ),
                 ),
                 content: const Text(
-                  "Are you sure to SignOut?",
+                  "Are you sure to Logout?",
                   style: TextStyle(
                     fontSize: 13,
                     color: black,
@@ -163,7 +173,6 @@ Future<Object?> PopupDialogs(BuildContext context) {
                           fontWeight: FontWeight.bold,
                         )),
                   ),
-                  // The "No" button
                 ],
               )),
         );

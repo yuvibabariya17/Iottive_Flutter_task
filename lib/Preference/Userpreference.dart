@@ -22,7 +22,6 @@ class UserPreferences {
 
   getIP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return String
     return prefs.getString('IP') ?? "";
   }
 
@@ -33,7 +32,6 @@ class UserPreferences {
 
   getBuildIP() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return String
     return prefs.getString('build_ip') ?? "";
   }
 
@@ -59,7 +57,6 @@ class UserPreferences {
 
   getCategory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return String
     String? stringValue = prefs.getString('Category');
     return stringValue;
   }
@@ -71,7 +68,6 @@ class UserPreferences {
 
   getSubCategory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    //Return String
     String? stringValue = prefs.getString('SubCategory');
     return stringValue;
   }

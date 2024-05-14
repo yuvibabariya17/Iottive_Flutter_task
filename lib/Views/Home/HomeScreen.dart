@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iottive_flutter_task/Controllers/HomeScreenController.dart';
 import 'package:iottive_flutter_task/Controllers/LoginScreenController.dart';
@@ -33,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
 
     logcat("DATE:::::::", controller.filteredHomeList.length);
-    controller.filteredHomeList = controller.serviceObjectList;
-    controller.getServiceList(context);
+    controller.filteredHomeList = controller.homeObjectList;
+    controller.getHomeList(context);
     super.initState();
   }
 
@@ -62,59 +63,59 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               width: double.infinity,
               color: black,
-              height: 0.2.h,
+              height: 0.1.h,
             ),
-            Container(
-              margin: EdgeInsets.only(
-                top: 2.h,
-                left: 1.w,
-                right: 1.w,
-              ),
-              padding: EdgeInsets.only(
-                left: 6.w,
-                right: 6.w,
-              ),
-              child: SizedBox(
-                height: 5.5.h,
-                child: TextField(
-                  onChanged: ((value) {
-                    controller.filterServiceList(value);
-                  }),
-                  style: const TextStyle(color: black),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.only(
-                      top: 1.h,
-                      left: 2.h,
-                      bottom: 1.h,
-                    ),
-                    hintText: Strings.search,
-                    hintStyle: const TextStyle(color: black),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: const BorderSide(color: black)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: const BorderSide(color: black)),
-                    prefixIcon: Padding(
-                      padding: EdgeInsets.only(
-                        left: SizerUtil.deviceType == DeviceType.mobile
-                            ? 2.w
-                            : 0.0,
+            GestureDetector(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Container(
+                margin: EdgeInsets.only(
+                  top: 2.h,
+                  left: 1.w,
+                  right: 1.w,
+                ),
+                padding: EdgeInsets.only(
+                  left: 6.w,
+                  right: 6.w,
+                ),
+                child: SizedBox(
+                  height: 5.5.h,
+                  child: TextField(
+                    onChanged: ((value) {
+                      controller.filterHomeList(value);
+                    }),
+                    style: const TextStyle(color: black),
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(
+                        top: 1.h,
+                        left: 2.h,
+                        bottom: 1.h,
                       ),
-                      child: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.search_sharp,
-                            color: black,
-                            size: SizerUtil.deviceType == DeviceType.mobile
-                                ? null
-                                : 3.h,
-                          )),
+                      hintText: Strings.search,
+                      hintStyle: TextStyle(
+                        color: black.withOpacity(0.6),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: const BorderSide(color: black)),
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                          borderSide: const BorderSide(color: black)),
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.only(left: 2.w),
+                        child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.search_sharp,
+                              color: black,
+                            )),
+                      ),
                     ),
+                    controller: controller.searchCtr,
+                    cursorColor: black,
+                    keyboardType: TextInputType.name,
                   ),
-                  controller: controller.searchCtr,
-                  cursorColor: black,
-                  keyboardType: TextInputType.name,
                 ),
               ),
             ),
@@ -143,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget apiSuccess(ScreenState state) {
-    logcat("LENGTH", controller.serviceObjectList.length.toString());
+    logcat("LENGTH", controller.homeObjectList.length.toString());
     if (state == ScreenState.apiSuccess &&
         controller.filteredHomeList.isNotEmpty) {
       return getServiceList();
@@ -476,7 +477,7 @@ class _HomeScreenState extends State<HomeScreen> {
         fun();
       },
       child: Container(
-        height: SizerUtil.deviceType == DeviceType.mobile ? 5.h : 4.5.h,
+        height: 5.h,
         alignment: Alignment.center,
         padding: const EdgeInsets.only(top: 1),
         width: SizerUtil.width / 3,
@@ -494,10 +495,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Text(
           str,
           style: TextStyle(
-              color: Colors.white,
-              fontFamily: fontBold,
-              fontSize:
-                  SizerUtil.deviceType == DeviceType.mobile ? 11.sp : 8.sp),
+              color: Colors.white, fontFamily: fontBold, fontSize: 11.sp),
         ),
       ),
     );
