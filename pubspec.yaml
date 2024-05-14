@@ -24,14 +24,11 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.6
   sizer: ^2.0.15
-  google_nav_bar: ^5.0.6
-  persistent_bottom_nav_bar: ^5.0.2
   animate_do: ^3.0.2
   flutter_svg: ^1.1.1+1
   http: ^1.1.0
   shared_preferences: ^2.2.0
   connectivity_plus: ^4.0.1
-
 
 dev_dependencies:
   flutter_test:
