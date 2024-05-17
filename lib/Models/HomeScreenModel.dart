@@ -38,8 +38,8 @@ class HomeList {
   double paidAmount;
   double discountAmount;
   int redeemedRewards;
-  String coolerId;
-  PaymentStatus paymentStatus;
+  String? coolerId;
+  String? paymentStatus;
   int amountDeductedByRewardPoint;
   double amountDeductedByPaymentGateway;
   List<Product> product;
@@ -59,12 +59,12 @@ class HomeList {
 
   factory HomeList.fromJson(Map<String, dynamic> json) => HomeList(
         date: json["date"],
-        orderId: json["orderID"],
+        orderId: json["orderID"] ?? '',
         paidAmount: json["paidAmount"],
         discountAmount: json["discountAmount"],
         redeemedRewards: json["redeemedRewards"],
-        coolerId: json["coolerId"],
-        paymentStatus: paymentStatusValues.map[json["paymentStatus"]]!,
+        coolerId: json["coolerId"] ?? '',
+        paymentStatus: json["paymentStatus"] ?? '',
         amountDeductedByRewardPoint: json["amountDeductedByRewardPoint"],
         amountDeductedByPaymentGateway: json["amountDeductedByPaymentGateway"],
         product:
@@ -78,16 +78,12 @@ class HomeList {
         "discountAmount": discountAmount,
         "redeemedRewards": redeemedRewards,
         "coolerId": coolerId,
-        "paymentStatus": paymentStatusValues.reverse[paymentStatus],
+        "paymentStatus": paymentStatus,
         "amountDeductedByRewardPoint": amountDeductedByRewardPoint,
         "amountDeductedByPaymentGateway": amountDeductedByPaymentGateway,
         "product": List<dynamic>.from(product.map((x) => x.toJson())),
       };
 }
-
-enum PaymentStatus { COMPLETED }
-
-final paymentStatusValues = EnumValues({"Completed": PaymentStatus.COMPLETED});
 
 class Product {
   String productName;

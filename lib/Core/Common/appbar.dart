@@ -57,7 +57,7 @@ getToolbar(title, Function? callback, String str, Function? ontap) {
                       fontFamily: fontBold,
                       color: primaryColor,
                       fontWeight: FontWeight.w700,
-                      fontSize: 15.sp),
+                      fontSize: 14.sp),
                 ),
               ),
             ),
@@ -78,9 +78,8 @@ getToolbar(title, Function? callback, String str, Function? ontap) {
             child: Center(
                 child: Text(
               str,
-              style: const TextStyle(
-                color: white,
-              ),
+              style: TextStyle(
+                  color: white, fontSize: 8.sp, fontWeight: FontWeight.w600),
             ))),
       )
     ],
@@ -125,19 +124,19 @@ Future<Object?> PopupDialogs(BuildContext context) {
           child: Opacity(
               opacity: a1.value,
               child: CupertinoAlertDialog(
-                title: const Text(
+                title: Text(
                   "Log Out",
                   style: TextStyle(
-                    fontSize: 18,
+                    fontSize: 12.sp,
                     color: black,
                     fontFamily: fontBold,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                content: const Text(
+                content: Text(
                   "Are you sure to Logout?",
                   style: TextStyle(
-                    fontSize: 13,
+                    fontSize: 10.sp,
                     color: black,
                     fontFamily: fontMedium,
                   ),
@@ -149,9 +148,9 @@ Future<Object?> PopupDialogs(BuildContext context) {
                     },
                     isDefaultAction: true,
                     isDestructiveAction: true,
-                    child: const Text('No',
+                    child: Text('No',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 10.sp,
                           color: black,
                           fontFamily: fontBold,
                           fontWeight: FontWeight.bold,
@@ -165,9 +164,9 @@ Future<Object?> PopupDialogs(BuildContext context) {
                     },
                     isDefaultAction: true,
                     isDestructiveAction: true,
-                    child: const Text('Yes',
+                    child: Text('Yes',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 10.sp,
                           color: black,
                           fontFamily: fontBold,
                           fontWeight: FontWeight.bold,

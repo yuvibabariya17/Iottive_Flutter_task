@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:iottive_flutter_task/Controllers/HomeScreenController.dart';
 import 'package:iottive_flutter_task/Controllers/LoginScreenController.dart';
@@ -23,6 +22,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final controller = Get.put(HomeScreenController());
 
+  ScrollController scrollController = ScrollController();
+  ScrollController innerScrollController = ScrollController();
+
   @override
   void initState() {
     WidgetsFlutterBinding.ensureInitialized();
@@ -34,8 +36,10 @@ class _HomeScreenState extends State<HomeScreen> {
     ]);
 
     logcat("DATE:::::::", controller.filteredHomeList.length);
-    controller.filteredHomeList = controller.homeObjectList;
+    //controller.filteredHomeList = controller.homeObjectList;
     controller.getHomeList(context);
+    scrollController = ScrollController();
+    innerScrollController = ScrollController();
     super.initState();
   }
 
@@ -76,8 +80,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   right: 1.w,
                 ),
                 padding: EdgeInsets.only(
-                  left: 6.w,
-                  right: 6.w,
+                  left: 4.w,
+                  right: 4.w,
                 ),
                 child: SizedBox(
                   height: 5.5.h,
@@ -85,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     onChanged: ((value) {
                       controller.filterHomeList(value);
                     }),
-                    style: const TextStyle(color: black),
+                    style: TextStyle(color: black, fontSize: 12.sp),
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(
                         top: 1.h,
@@ -132,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 case ScreenState.apiSuccess:
                   return Container(
-                      margin: EdgeInsets.only(bottom: 3.h, top: 2.h),
+                      margin: EdgeInsets.only(top: 2.h, bottom: 1.h),
                       child: apiSuccess(controller.state.value));
                 default:
                   Container();
@@ -144,7 +148,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget apiSuccess(ScreenState state) {
-    logcat("LENGTH", controller.homeObjectList.length.toString());
     if (state == ScreenState.apiSuccess &&
         controller.filteredHomeList.isNotEmpty) {
       return getServiceList();
@@ -164,25 +167,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   getServiceList() {
     return Scrollbar(
-      controller: ScrollController(),
+      controller: scrollController,
       trackVisibility: true,
-      thickness: 10,
+      thickness: 8,
       interactive: true,
-      radius: Radius.circular(16),
+      radius: const Radius.circular(16),
       thumbVisibility: true,
       child: ListView.builder(
+        controller: scrollController,
         shrinkWrap: true,
         clipBehavior: Clip.antiAlias,
         padding: EdgeInsets.only(bottom: 7.h),
         physics: const BouncingScrollPhysics(),
         itemBuilder: (context, index) {
           HomeList data = controller.filteredHomeList[index];
-
           return Container(
               margin: EdgeInsets.only(
                 left: 5.w,
                 right: 5.w,
-                top: 1.5.h,
+                top: 0.9.h,
                 bottom: 0.5.h,
               ),
               padding: EdgeInsets.only(
@@ -198,8 +201,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   BoxShadow(
                     color: black.withOpacity(0.2),
                     spreadRadius: 0.1,
-                    blurRadius: 10,
-                    offset: const Offset(0.5, 0.5),
+                    blurRadius: 5,
+                    offset: const Offset(0.2, 0.2),
                   ),
                 ],
               ),
@@ -207,126 +210,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Order Id : ",
-                        style: TextStyle(
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w800,
-                          color: black,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          data.orderId.toString(),
-                          overflow: TextOverflow.visible,
-                          maxLines: 3,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 7.sp,
-                              color: black,
-                              fontFamily: fontRegular),
-                        ),
-                      ),
-                      // Expanded(
-                      //   child: Text(
-                      //     "Order Id : ${data.orderId.toString()}",
-                      //     maxLines: 1,
-                      //     overflow: TextOverflow.ellipsis,
-                      //     style: TextStyle(
-                      //       color: black,
-                      //       fontFamily: opensansMedium,
-                      //       fontSize: 7.sp,
-                      //       fontWeight: FontWeight.w400,
-                      //     ),
-
-                      SizedBox(width: 1.w),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Amount : ",
-                        style: TextStyle(
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w800,
-                          color: black,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          data.paidAmount.toString(),
-                          overflow: TextOverflow.visible,
-                          maxLines: 3,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 7.sp,
-                              color: black,
-                              fontFamily: fontRegular),
-                        ),
-                      ),
-                      SizedBox(width: 1.w),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Status : ",
-                        style: TextStyle(
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w800,
-                          color: black,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          data.paymentStatus.toString(),
-                          overflow: TextOverflow.visible,
-                          maxLines: 3,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 7.sp,
-                              color: black,
-                              fontFamily: fontRegular),
-                        ),
-                      ),
-                      SizedBox(width: 1.w),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text(
-                        "No.of Product : ",
-                        style: TextStyle(
-                          fontSize: 8.sp,
-                          fontWeight: FontWeight.w800,
-                          color: black,
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          data.product.length.toString(),
-                          overflow: TextOverflow.visible,
-                          maxLines: 3,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                              fontSize: 7.sp,
-                              color: black,
-                              fontFamily: fontRegular),
-                        ),
-                      ),
-                      SizedBox(width: 1.w),
-                    ],
-                  ),
+                  buildRow('Order Id : ', data.orderId.toString(), context),
+                  buildRow('Amount : ', data.paidAmount.toString(), context),
+                  buildRow('Status : ', data.paymentStatus.toString(), context),
+                  buildRow('No.of Product : ', data.product.length.toString(),
+                      context),
                   const Divider(
                     color: black,
                   ),
@@ -345,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             radius: const Radius.circular(10),
                             thumbVisibility: true,
                             child: ListView.builder(
+                              controller: ScrollController(),
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemCount: data.product.length,
@@ -407,6 +296,37 @@ class _HomeScreenState extends State<HomeScreen> {
         },
         itemCount: controller.filteredHomeList.length,
       ),
+    );
+  }
+
+  Widget buildRow(String label, String value, BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 8.sp,
+            fontWeight: FontWeight.w800,
+            color: black,
+          ),
+        ),
+        Expanded(
+          child: Text(
+            value,
+            overflow: TextOverflow.visible,
+            maxLines: 3,
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 7.sp,
+              color: black,
+              fontFamily: fontRegular,
+            ),
+          ),
+        ),
+        SizedBox(width: 1.w),
+      ],
     );
   }
 

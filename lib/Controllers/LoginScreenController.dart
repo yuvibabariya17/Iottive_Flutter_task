@@ -115,7 +115,7 @@ class LoginScreenController extends GetxController {
         if (responseDetail.success == true) {
           UserPreferences().saveSignInInfo(responseDetail);
           UserPreferences().setToken(responseDetail.authToken.toString());
-          Get.to(const HomeScreen());
+          Get.offAll(const HomeScreen());
         } else {
           showDialogForScreen(context, data['message'].toString(),
               callback: () {});

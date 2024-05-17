@@ -83,7 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     return getFormButton(() {
                       if (controller.isFormInvalidate.value == true) {
                         controller.signInAPI(context);
-                        logcat("LOGINSUCCESSFUL:::::", "");
                       }
                     }, Strings.login,
                         validate: controller.isFormInvalidate.value);
@@ -134,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                   color: Colors.grey,
                   width: 0.5.w,
-                  height: 4.h,
+                  height: 3.5.h,
                 ),
                 SizedBox(
                   width: 2.w,
@@ -144,7 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
             suffixIcon: index == 2
                 ? GestureDetector(
                     onTap: () {
-                      logcat("OnTAP", "DONE");
                       controller.obsecureText.value =
                           !controller.obsecureText.value;
                       setState(() {});

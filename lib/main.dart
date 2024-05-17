@@ -8,8 +8,7 @@ import 'package:iottive_flutter_task/Views/SplashScreen/SplashScreen.dart';
 import 'package:sizer/sizer.dart';
 
 void main() {
-  Get.lazyPut(() => InternetController());
-
+  //Get.lazyPut(() => InternetController());
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
     Common().Trasparent_statusbar();
     return Sizer(builder: (context, orientation, deviceType) {
       return GetMaterialApp(
-        title: 'Iottive ',
+        title: 'Iottive',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           scrollbarTheme: ScrollbarThemeData(

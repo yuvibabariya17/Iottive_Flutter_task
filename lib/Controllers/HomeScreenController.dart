@@ -19,7 +19,7 @@ class HomeScreenController extends GetxController {
 
   Rx<ScreenState> state = ScreenState.apiLoading.obs;
 
-  List<HomeList> filteredHomeList = [];
+  RxList<HomeList> filteredHomeList = <HomeList>[].obs;
 
   RxBool isHomeTypeApiList = false.obs;
   RxList<HomeList> homeObjectList = <HomeList>[].obs;
@@ -32,31 +32,50 @@ class HomeScreenController extends GetxController {
     super.onInit();
   }
 
-  void filterHomeList(String query) {
-    if (query.isEmpty) {
-      filteredHomeList = homeObjectList;
-    } else {
-      List<HomeList> newArray = [];
-      for (var element in homeObjectList) {
-        bool isFound = false;
-        for (var pd in element.product) {
-          if (pd.productName
-              .toString()
-              .trim()
+  void filterHomeList(String keyword) {
+    filteredHomeList.clear();
+    if (keyword.isNotEmpty) {
+      for (HomeList model in homeObjectList) {
+        for (Product productModel in model.product) {
+          if (productModel.productName
               .toLowerCase()
-              .contains(query.toLowerCase())) {
-            isFound = true;
+              .contains(keyword.toLowerCase())) {
+            filteredHomeList.add(model);
+            filteredHomeList.call();
           }
         }
-        if (isFound) {
-          newArray.add(element);
-        }
       }
-
-      filteredHomeList = newArray;
+    } else {
+      filteredHomeList.addAll(homeObjectList);
     }
     update();
   }
+
+  // void filterHomeList(String query) {
+  //   if (query.isEmpty) {
+  //     filteredHomeList = homeObjectList;
+  //   } else {
+  //     List<HomeList> newArray = [];
+  //     for (var element in homeObjectList) {
+  //       bool isFound = false;
+  //       for (var pd in element.product) {
+  //         if (pd.productName
+  //             .toString()
+  //             .trim()
+  //             .toLowerCase()
+  //             .contains(query.toLowerCase())) {
+  //           isFound = true;
+  //         }
+  //       }
+  //       if (isFound) {
+  //         newArray.add(element);
+  //       }
+  //     }
+
+  //     filteredHomeList = newArray;
+  //   }
+  //   update();
+  // }
 
   void getHomeList(context) async {
     state.value = ScreenState.apiLoading;
@@ -64,6 +83,8 @@ class HomeScreenController extends GetxController {
       String token = await UserPreferences().getToken();
       var data = await UserPreferences().getSignInInfo();
 
+      logcat("Passing_Param",
+          {"authToken": token, "userId": data?.userId.toString()});
       var response = await Repository.postForm(
           {"authToken": token, "userId": data?.userId.toString()}, ApiUrl.home,
           allowHeader: true);
@@ -78,10 +99,8 @@ class HomeScreenController extends GetxController {
           state.value = ScreenState.apiSuccess;
           homeObjectList.clear();
           homeObjectList.addAll(data.data);
-          filteredHomeList = homeObjectList;
-
+          filteredHomeList.addAll(homeObjectList);
           update();
-
           logcat("HOME RESPONSE", jsonEncode(homeObjectList));
         } else {
           showDialogForScreen(context, responseData['message'],
