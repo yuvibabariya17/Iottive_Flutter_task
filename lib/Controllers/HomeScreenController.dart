@@ -51,32 +51,6 @@ class HomeScreenController extends GetxController {
     update();
   }
 
-  // void filterHomeList(String query) {
-  //   if (query.isEmpty) {
-  //     filteredHomeList = homeObjectList;
-  //   } else {
-  //     List<HomeList> newArray = [];
-  //     for (var element in homeObjectList) {
-  //       bool isFound = false;
-  //       for (var pd in element.product) {
-  //         if (pd.productName
-  //             .toString()
-  //             .trim()
-  //             .toLowerCase()
-  //             .contains(query.toLowerCase())) {
-  //           isFound = true;
-  //         }
-  //       }
-  //       if (isFound) {
-  //         newArray.add(element);
-  //       }
-  //     }
-
-  //     filteredHomeList = newArray;
-  //   }
-  //   update();
-  // }
-
   void getHomeList(context) async {
     state.value = ScreenState.apiLoading;
     try {
