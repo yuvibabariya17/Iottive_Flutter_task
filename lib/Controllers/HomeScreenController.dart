@@ -34,6 +34,7 @@ class HomeScreenController extends GetxController {
 
   void filterHomeList(String keyword) {
     filteredHomeList.clear();
+
     if (keyword.isNotEmpty) {
       for (HomeList model in homeObjectList) {
         for (Product productModel in model.product) {
@@ -41,6 +42,7 @@ class HomeScreenController extends GetxController {
               .toLowerCase()
               .contains(keyword.toLowerCase())) {
             filteredHomeList.add(model);
+
             filteredHomeList.call();
           }
         }
